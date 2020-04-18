@@ -58,7 +58,42 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  /*
+  Select all the class with the key attribute
+  Select all the audio tags
+  Create a mapping of the audio tags and data-key
+  Iterate through each key class and map it to the audio tag so when someone hits a button it plays that sound
+  */
+  function playSong(e){
+    var key = document.querySelector(`div[data-key="${e.keyCode}"]`)
+    var audioTag = document.querySelector(`audio[data-key="${e.keyCode}"]`)
+    if (!audioTag) return;
+    key.classList.add('playing')
+    audioTag.currentTime = 0
+    audioTag.play()
+  }
 
+  function cleanUp(e) {
+    console.log(e.propertyName)
+    if (e.propertyName !== 'transform') return;
+    e.target.classList.remove('playing')
+  }
+
+  window.addEventListener('keydown', playSong)
+  var keys = document.getElementsByClassName('key');
+  Array.from(keys).forEach(function(key) {
+    key.addEventListener('transitionend', cleanUp)
+  })
+
+  /*
+  Takeaways: 
+  1. You can select something by doing querySelector
+  2. The audio tag is used for audio 
+  3. Keyboard keys have a designated number called keyCode
+  4. There are keydown event listener which will have the keyCode you pressed
+  5. There is event listener transitionend when the transition has finished
+  6. There is a data attribute where you can add your own html tag attributes and values
+  */
 </script>
 
 
