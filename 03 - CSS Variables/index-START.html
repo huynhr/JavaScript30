@@ -25,6 +25,21 @@
     /*
       misc styles, nothing to do with CSS variables
     */
+    :root {
+      --base: #ffc600;
+      --spacing: 10px;
+      --blur: 10px;
+    }
+
+    img {
+      background: var(--base);
+      padding: var(--spacing);
+      filter: var(--blur)
+    }
+
+    .h1 {
+      color: var(--base);
+    }
 
     body {
       text-align: center;
@@ -45,6 +60,22 @@
   </style>
 
   <script>
+    /*
+      on change of the spacing we want to update the padding of the image tag
+    */
+    const rangeInput = document.querySelector('#spacing')
+    const image = document.querySelector('img')
+    const root = document.documentElement
+
+    const updateSpacing = function(e) {
+      let value = e.target.value
+      const valueOutput = `${value}${rangeInput.dataset.sizing}`
+      const suffix = e.target.dataset.sizing || ''
+      value = e.target.name === 'blur' ? `blur(${value}${suffix})` : `${value}${suffix}`
+      document.documentElement.style.setProperty(`--${e.target.name}`, value)
+    }
+
+    window.addEventListener('input', updateSpacing)
   </script>
 
 </body>
