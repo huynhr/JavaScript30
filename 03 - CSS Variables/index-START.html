@@ -34,7 +34,7 @@
     img {
       background: var(--base);
       padding: var(--spacing);
-      filter: var(--blur)
+      filter: blur(var(--blur))
     }
 
     .h1 {
@@ -60,22 +60,21 @@
   </style>
 
   <script>
-    /*
-      on change of the spacing we want to update the padding of the image tag
-    */
-    const rangeInput = document.querySelector('#spacing')
+    const controls = document.querySelector('.controls')
     const image = document.querySelector('img')
-    const root = document.documentElement
 
     const updateSpacing = function(e) {
-      let value = e.target.value
-      const valueOutput = `${value}${rangeInput.dataset.sizing}`
       const suffix = e.target.dataset.sizing || ''
-      value = e.target.name === 'blur' ? `blur(${value}${suffix})` : `${value}${suffix}`
+      let value = e.target.value + suffix
       document.documentElement.style.setProperty(`--${e.target.name}`, value)
     }
+    controls.addEventListener('input', updateSpacing)
 
-    window.addEventListener('input', updateSpacing)
+    /*
+    - used event delegation to make sure all input events under .controls class to bubble up
+    - the input fields have a name field that matches to the variable names
+    - use document.documentElement.style.setProperty to get the css variables
+    */
   </script>
 
 </body>
